@@ -72,14 +72,10 @@ class Description implements IteratorAggregate
     public function add ($property, $value)
     {
         $key = (string)$property;
-        if (array_key_exists($key, $this->properties)) {
-            if (!is_array($this->properties[$key])) {
-                $this->properties[$key] = array($this->properties[$key]);
-            }
-            $this->properties[$key][] = $value;
-        } else {
-            $this->set($property, $value);
+        if (!array_key_exists($key, $this->properties)) {
+            $this->properties[$key] = array();
         }
+        $this->properties[$key][] = $value;
     }
 
     /**
@@ -92,7 +88,7 @@ class Description implements IteratorAggregate
     public function set ($property, $value)
     {
         $key = (string)$property;
-        $this->properties[$key] = $value;
+        $this->properties[$key] = (array)$value;
     }
 
     /**
@@ -107,7 +103,7 @@ class Description implements IteratorAggregate
         if (array_key_exists($key, $this->properties)) {
             return $this->properties[$key];
         }
-        return null;
+        return array();
     }
 
     /**

@@ -44,4 +44,28 @@ class DescriptionTest extends TestCase
         $iter = $desc->filter('http://www.w3.org/2004/02/skos/core#');
         $this->assertEquals(1, iterator_count($iter));
     }
+
+    public function testAddCreatesArray ()
+    {
+        $desc = new Description();
+        $desc->add('http://purl.org/dc/elements/1.1/title', 'Title');
+        $this->assertInternalType('array', $desc->get('http://purl.org/dc/elements/1.1/title'));
+    }
+
+    public function testSetSingleValueCreatesArray ()
+    {
+        $desc = new Description();
+        $desc->set('http://purl.org/dc/elements/1.1/title', 'Title');
+        $this->assertInternalType('array', $desc->get('http://purl.org/dc/elements/1.1/title'));
+    }
+
+    public function testSetArray ()
+    {
+        $desc = new Description();
+        $desc->set('http://purl.org/dc/elements/1.1/title', array('Title'));
+        $title = $desc->get('http://purl.org/dc/elements/1.1/title');
+        $this->assertInternalType('array', $title);
+        $this->assertCount(1, $title);
+        $this->assertInternalType('string', reset($title));
+    }
 }
