@@ -23,8 +23,10 @@
 
 namespace HAB\Descriptions;
 
+use CallbackFilterIterator;
 use IteratorAggregate;
 use ArrayIterator;
+use Iterator;
 
 /**
  * Resource description.
@@ -121,6 +123,21 @@ class Description implements IteratorAggregate
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return iterator for properties starting with prefix.
+     *
+     * @param  string $prefix
+     * @return Iterator
+     */
+    public function filter ($prefix)
+    {
+        $callback = function ($values, $property, $iterator) use ($prefix) {
+            return (strpos($property, $prefix) === 0);
+        };
+        $iterator = $this->getIterator();
+        return new CallbackFilterIterator($iterator, $callback);
     }
 
     /**
