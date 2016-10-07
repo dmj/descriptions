@@ -158,6 +158,17 @@ class Resource
     }
 
     /**
+     * Accept visitor.
+     *
+     * @param  VisitorInterface $visitor
+     * @return void
+     */
+    public function accept (VisitorInterface $visitor)
+    {
+        $visitor->visitResource($this);
+    }
+
+    /**
      * Return string representation.
      *
      * @return string
