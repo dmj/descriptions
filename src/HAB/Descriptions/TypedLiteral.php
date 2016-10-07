@@ -24,37 +24,71 @@
 namespace HAB\Descriptions;
 
 /**
- * Interface of a description visitor.
+ * Typed literal value.
  *
  * @author    David Maus <maus@hab.de>
  * @copyright (c) 2016 by Herzog August Bibliothek Wolfenbüttel
  * @license   http://www.gnu.org/licenses/gpl.txt GNU General Public License v3 or higher
  */
-interface VisitorInterface
+class TypedLiteral
 {
 
     /**
-     * Visit description.
+     * Value.
      *
-     * @param  Description $description
-     * @return void
+     * @var mixed
      */
-    public function visitDescription (Description $description);
+    private $value;
 
     /**
-     * Visit resource.
+     * Datatype.
      *
-     * @param  Resource $resource
-     * @return void
+     * @var Resource
      */
-    public function visitResource (Resource $resource);
+    private $datatype;
 
     /**
-     * Visit typed literal.
+     * Constructor.
      *
-     * @param  TypedLiteral $literal
+     * @param  mixed    $value
+     * @param  Resource $datatype
      * @return void
      */
-    public function visitTypedLiteral (TypedLiteral $literal);
+    public function __construct (Resource $datatype, $value)
+    {
+        $this->value = $value;
+        $this->datatype = $datatype;
+    }
+
+    /**
+     * Return value.
+     *
+     * @return mixed
+     */
+    public function getValue ()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Return datatype.
+     *
+     * @return Resource
+     */
+    public function getDatatype ()
+    {
+        return $this->datatype;
+    }
+
+    /**
+     * Accept visitor.
+     *
+     * @param  VisitorInterface $visitor
+     * @return void
+     */
+    public function accept (VisitorInterface $visitor)
+    {
+        $visitor->visitTypedLiteral($this);
+    }
 
 }
