@@ -88,7 +88,10 @@ class Description implements IteratorAggregate
     public function set ($property, $value)
     {
         $key = (string)$property;
-        $this->properties[$key] = (array)$value;
+        if (!is_array($value)) {
+            $value = array($value);
+        }
+        $this->properties[$key] = $value;
     }
 
     /**
